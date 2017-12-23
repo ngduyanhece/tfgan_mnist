@@ -1,7 +1,7 @@
-import tensorflow as tf
-import matplotlib.pyplot as plt
 import  matplotlib
 matplotlib.use('Agg')
+import tensorflow as tf
+import matplotlib.pyplot as plt
 import numpy as np
 import  os
 tfgan = tf.contrib.gan

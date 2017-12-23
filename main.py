@@ -4,7 +4,8 @@ from __future__ import division
 from __future__ import print_function
 import sys
 import os
-import matplotlib.pyplot as plt
+import  matplotlib
+matplotlib.use('Agg')
 import numpy as np
 import time
 import functools

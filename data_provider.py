@@ -22,6 +22,8 @@ import os
 sys.path.append('..')
 sys.path.append('..')
 sys.path.append(os.path.join('..', 'slim'))
+import  matplotlib
+matplotlib.use('Agg')
 import tensorflow as tf
 
 from datasets import dataset_factory as datasets
