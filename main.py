@@ -62,8 +62,28 @@ if __name__ == '__main__':
     train_step_fn = tfgan.get_sequential_train_steps()
     global_step = tf.train.get_or_create_global_step()
     loss_values, mnist_score_values = [], []
-    generated_data_to_visualize = tfgan.eval.image_reshaper(
-        infogan_model.generated_data[:20, ...], num_cols=10)
+    # generated_data_to_visualize = tfgan.eval.image_reshaper(
+    #     infogan_model.generated_data[:20, ...], num_cols=10)
+    # Generate three sets of images to visualize the effect of each of the structured noise
+    # variables on the output.
+    rows = 2
+    categorical_sample_points = np.arange(0, 10)
+    continuous_sample_points = np.linspace(-1.0, 1.0, 10)
+    noise_args = (rows, categorical_sample_points, continuous_sample_points,
+                  noise_dims - cont_dim, cont_dim)
+
+    display_noises = []
+    display_noises.append(util.get_eval_noise_categorical(*noise_args))
+    display_noises.append(util.get_eval_noise_continuous_dim1(*noise_args))
+    display_noises.append(util.get_eval_noise_continuous_dim2(*noise_args))
+
+    display_images = []
+    for noise in display_noises:
+        with tf.variable_scope(infogan_model.generator_scope, reuse=True):
+            display_images.append(infogan_model.generator_fn(noise))
+
+    display_img = tfgan.eval.image_reshaper(
+        tf.concat(display_images, 0), num_cols=10)
 
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
@@ -77,4 +97,4 @@ if __name__ == '__main__':
                     print('Current epoch: %d' % i)
                     print('Current loss: %f' % cur_loss)
                     img_name = "result_" + str(i)
-                    save_image(sess.run(generated_data_to_visualize),MNIST_IMAGE_DIR,img_name)
+                    save_image(sess.run(display_img),MNIST_IMAGE_DIR,img_name)
