@@ -106,7 +106,9 @@ if __name__ == '__main__':
                         _, predicted_distributions = discriminator_fn(test_images, infogan_model.generator_inputs)
                         cat_prediction = predicted_distributions[0]
                         p_labels = sess.run(tf.argmax(cat_prediction.probs, axis=1))
+                        print("predicted labels: {}".format(p_labels))
                         targets = sess.run(tf.argmax(test_one_hot_labels, axis=1))
+                        print("True labels: {}".format(targets))
                         acc = np.mean(p_labels == targets)
                         print("accuracy:")
                         print(acc)
