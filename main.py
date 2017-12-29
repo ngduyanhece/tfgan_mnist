@@ -33,13 +33,16 @@ if __name__ == '__main__':
     if not tf.gfile.Exists(MNIST_IMAGE_DIR):
         tf.gfile.MakeDirs(MNIST_IMAGE_DIR)
     images, one_hot_labels, _ = data_provider.provide_data('train', batch_size, MNIST_DATA_DIR)
+    true_labels = tf.argmax(one_hot_labels,axis=1)
 
     generator_fn = functools.partial(infogan_generator, categorical_dim=cat_dim)
     discriminator_fn = functools.partial(
         infogan_discriminator, categorical_dim=cat_dim,
         continuous_dim=cont_dim)
+    # unstructured_inputs, structured_inputs = util.get_infogan_noise(
+    #     batch_size, cat_dim, cont_dim, noise_dims)
     unstructured_inputs, structured_inputs = util.get_infogan_noise(
-        batch_size, cat_dim, cont_dim, noise_dims)
+        batch_size, true_labels, cont_dim, noise_dims)
 
     infogan_model = tfgan.infogan_model(
         generator_fn=generator_fn,

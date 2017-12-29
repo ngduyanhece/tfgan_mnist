@@ -282,7 +282,7 @@ def get_eval_noise_continuous_dim2(
   return unstructured_noise, categorical_noise, continuous_noise
 
 
-def get_infogan_noise(batch_size, categorical_dim, structured_continuous_dim,
+def get_infogan_noise(batch_size, one_hot_labels, structured_continuous_dim,
                       total_continuous_noise_dims):
   """Get unstructured and structured noise for InfoGAN.
 
@@ -304,9 +304,9 @@ def get_infogan_noise(batch_size, categorical_dim, structured_continuous_dim,
       [batch_size, total_continuous_noise_dims - structured_continuous_dim])
 
   # Get categorical noise Tensor.
-  categorical_dist = ds.Categorical(logits=tf.zeros([categorical_dim]))
-  categorical_noise = categorical_dist.sample([batch_size])
-
+  # categorical_dist = ds.Categorical(logits=tf.zeros([categorical_dim]))
+  # categorical_noise = categorical_dist.sample([batch_size])
+  categorical_noise = one_hot_labels
   # Get continuous noise Tensor.
   continuous_dist = ds.Uniform(-tf.ones([structured_continuous_dim]),
                                tf.ones([structured_continuous_dim]))
