@@ -92,7 +92,7 @@ if __name__ == '__main__':
         sess.run(tf.global_variables_initializer())
         with slim.queues.QueueRunners(sess):
             start_time = time.time()
-            for i in range(6001):
+            for i in range(10001):
                 cur_loss, _ = train_step_fn(
                     sess, gan_train_ops, global_step, train_step_kwargs={})
                 loss_values.append((i, cur_loss))
