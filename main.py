@@ -21,7 +21,7 @@ from mnist_train_util import  save_image
 slim = tf.contrib.slim
 layers = tf.contrib.layers
 ds = tf.contrib.distributions
-batch_size = 10
+batch_size = 64
 # noise_dims = 64
 cat_dim, cont_dim, noise_dims = 10, 2, 64
 MNIST_DATA_DIR = './mnist-data'
@@ -97,7 +97,7 @@ if __name__ == '__main__':
                 cur_loss, _ = train_step_fn(
                     sess, gan_train_ops, global_step, train_step_kwargs={})
                 loss_values.append((i, cur_loss))
-                if i % 200 == 0:
+                if i % 500 == 0:
                     print('Current epoch: %d' % i)
                     print('Current loss: %f' % cur_loss)
                     img_name = "result_" + str(i)
