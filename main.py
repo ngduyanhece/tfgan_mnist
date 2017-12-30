@@ -79,8 +79,8 @@ if __name__ == '__main__':
 
     display_noises = []
     display_noises.append(util.get_eval_noise_categorical(*noise_args))
-    display_noises.append(util.get_eval_noise_continuous_dim1(*noise_args))
-    display_noises.append(util.get_eval_noise_continuous_dim2(*noise_args))
+    # display_noises.append(util.get_eval_noise_continuous_dim1(*noise_args))
+    # display_noises.append(util.get_eval_noise_continuous_dim2(*noise_args))
 
     display_images = []
     for noise in display_noises:
@@ -94,11 +94,11 @@ if __name__ == '__main__':
         sess.run(tf.global_variables_initializer())
         with slim.queues.QueueRunners(sess):
             start_time = time.time()
-            for i in range(100001):
+            for i in range(10001):
                 cur_loss, _ = train_step_fn(
                     sess, gan_train_ops, global_step, train_step_kwargs={})
                 loss_values.append((i, cur_loss))
-                if i % 10000 == 0:
+                if i % 500 == 0:
                     print('Current epoch: %d' % i)
                     print('Current loss: %f' % cur_loss)
                     img_name = "result_" + str(i)
